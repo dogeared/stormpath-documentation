@@ -687,14 +687,15 @@ Searches can be performed on the following endpoints:
 
 - ``/v1/directory/$DIRECTORY_ID/accounts``
 
-As an example, if we know that Accounts have a ``favoriteColor`` key in their customData, we could find all Accounts in a Directory that have ``favoriteColor`` set to ``white`` with the following query:
+As an example, if we know that Accounts have a ``favoriteColor`` key in their customData, we could find all Accounts in a Directory that have ``favoriteColor`` set to ``white`` by sending a GET to::
 
-.. code-block:: bash
+  /v1/directories/2SKhstu8Plaekcai8lghrp/accounts?customData.favoriteColor=white'
 
-  curl --request GET \
-  --user $SP_API_KEY_ID:$SP_API_KEY_SECRET \
-  --header 'content-type: application/json' \
-  --url 'https://api.stormpath.com/v1/directories/2SKhstu8Plaekcai8lghrp/accounts?customData.favoriteColor=white'
+Custom Data search supports all of the usual :ref:`Pagination <about-pagination>` and :ref:`Sorting <about-sorting>` parameters.
+
+The following GET would return Accounts ordered by their ``topScore`` value, with a ``limit`` of ``50`` Accounts in the returned collection::
+
+  /v1/directories/2SKhstu8Plaekcai8lghrp/accounts?orderBy=customData.topScore&limit=50'
 
 Matching Logic
 ++++++++++++++
@@ -714,7 +715,7 @@ So if instead of finding all Accounts that had customData where ``favoriteColor=
 
   ?customData.favoriteColor=b*
 
-Since we would actually want to see what the values were, we'd also throw in a :ref:`link expansion <about-links>` parameter as well:
+Since we would actually want to see what the values were, we'd also throw in a :ref:`link expansion <about-links>` parameter as well::
 
   ?customData.favoriteColor=b*&expand=customData
 
@@ -775,20 +776,15 @@ Which would result in the following response:
 Searching Datetime in Custom Data
 ++++++++++++++++++++++++++++++++++
 
-It is, of course, possible to store Datetime-formatted String values in customData. So you could have a customData key called ``startDate`` which stored values like ``2011-08-15``. You can then query these values like any other string, so to find all Accounts that were created in 2011 you could use this parameter:
+It is, of course, possible to store Datetime-formatted String values in customData. So you could have a customData key called ``startDate`` which stored values like ``2011-08-15``. You can then query these values like any other string, so to find all Accounts that were created in 2011 you could use this parameter::
 
   ?customData.startDate=2011*
 
-It is also possible to use Exclusion, Inclusion and Precision just like with :ref:`Datetime search<search-datetime>`. 
+It is also possible to use Exclusion, Inclusion and Precision just like with other :ref:`Datetime searches <search-datetime>`. 
 
-As usual, the square brackets [] denote **inclusion**, and parentheses () denote **exclusion**. For example, if you wanted to get all Accounts with a customData ``startDate`` key value between January 12 and January 14, 2015 **not including** the 14th, your request would look like this:
+As usual, the square brackets [] denote **inclusion**, and parentheses () denote **exclusion**. For example, if you wanted to get all Accounts with a customData ``startDate`` key value between January 12 and January 14, 2015 **not including** the 14th, your request parameters would look like this::
 
-.. code-block:: bash
-
-  curl --request GET \
-  --user $SP_API_KEY_ID:$SP_API_KEY_SECRET \
-  --header 'content-type: application/json' \
-  --url 'https://api.stormpath.com/v1/directories/2SKhstu8PlaekcaexaMPLe/accounts?customData.startDate=[2015-01-12, 2015-01-13)'
+  /accounts?customData.startDate=[2015-01-12, 2015-01-13)
 
 If you wanted more **precision**, to find only the Accounts that had a customData ``startDate`` value representing the first five seconds after noon on December 12::
 

@@ -694,14 +694,24 @@ Find All Accounts in a Directory That Were Created on a Particular Day
 4.3.2. Searching for Accounts with customData
 ---------------------------------------------
 
-.. todo::
+It is also possible to retrieve a collection of Accounts by searching the data stored in their :ref:`customData <ref-customdata>` resources. Currently, only Directory Accounts can have their customData searched. If our Accounts had a customData key ``startDate`` which stored a ISO-8601 Datetime string, we could query those strings. 
 
-  This.
+If, for example, we wanted all Accounts in the Directory that had started between 2012-01-01 and 2015-12-31, and we wanted to paginate the results by limiting the returned number of Accounts to 5 and an offset of 0, we would send the following query:
+
+.. code-block:: http
+
+  GET /v1/directories/2SKhstu8Plaekcai8lghrp/accounts?customData.startDate=[2012,2015]&limit=5&offset=0 HTTP/1.1
+  Host: api.stormpath.com
+  Content-Type: application/json
+
+For a full description please see :ref:`the Reference chapter <search-customdata>`.
 
 .. _managing-account-pwd:
 
 4.4. How to Manage an Account's Password
 ========================================
+
+One of the major categories of user management tasks that Stormpath handles and simplifies for you is managing user passwords. All of these different use cases are discussed in the section below.
 
 4.4.1. Manage Password Policies
 --------------------------------
