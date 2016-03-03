@@ -35,6 +35,7 @@ after_success:
 - test -z "$DEPLOY_DOCS" || cd ..
 - test -z "$DEPLOY_DOCS" || rake deploy
 before_install:
-- openssl aes-256-cbc -K $encrypted_15c7e38b27fc_key -iv $encrypted_15c7e38b27fc_iv
-  -in stormpath_documentation_auto_doc_build.enc -out ~/.ssh/id_rsa -d
-- chmod 600 ~/.ssh/id_rsa
+# The travis encrypted value for $encrypted_15c7e38b27fc_iv is missing. Commenting out until added.
+# - openssl aes-256-cbc -K $encrypted_15c7e38b27fc_key -iv $encrypted_15c7e38b27fc_iv
+  # -in stormpath_documentation_auto_doc_build.enc -out ~/.ssh/id_rsa -d
+# - chmod 600 ~/.ssh/id_rsa
